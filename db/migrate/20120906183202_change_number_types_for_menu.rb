@@ -1,7 +1,6 @@
 class ChangeNumberTypesForMenu < ActiveRecord::Migration
-  def up
+  def change
+    change_column :menus, :items, :integer
   end
 
-  def down
-  end
 end
