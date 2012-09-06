@@ -1,0 +1,14 @@
+%p#notice= notice
+
+%p
+  %b Total:
+  = @menu.total
+%p
+  %b Items:
+  = @menu.items
+%p
+  %b Solution:
+  = @solution
+= link_to 'Edit', edit_menu_path(@menu)
+\|
+= link_to 'Back', menus_path
