@@ -18,7 +18,8 @@ class Menu < ActiveRecord::Base
     array.each do |a|
       # Remove the dollar sign from the amounts
       a[1] = a[1].split('$').last.to_f
-      a[1] *= 100
+      # Convert to pennies
+      a[1] = (a[1] * 100).to_i
       hash[a[0]] = a[1]
     end
     {:total => total, :items => hash}
@@ -33,5 +34,24 @@ class Menu < ActiveRecord::Base
     # Find how many of the cheapeast items you can add while <= total. This is the largest possible number of items
     cheapest = items.values.first
     max_item_count = (total / cheapest).floor
+    i = 1
+    until i > max_item_count
+      # The array combination method will give us every possible combination of i members of a set
+      # But each number is unique, so we need to add alternate versions of each number in order to allow for multiple
+      # orders of the same item
+      possible_items = []
+      items.values.each do |val|
+        i.times do
+          possible_items.push(val)
+        end
+      end
+      tests = possible_items.combination(i).to_a
+      tests.each do |test|
+        sum = test.inject{|sum, x| sum + x}
+        puts "#{test} sum: #{sum}"
+        return test if sum == total
+      end
+      i += 1
+    end
   end
 end
