@@ -27,6 +27,7 @@ class Menu < ActiveRecord::Base
 
   def solve_for_total
     # Figure out which, if any, combination of items can add up to the total
+    # This is kind of slow for going through every permutation. Could really stand to be optimized
     # First eliminate any items that are already more than the total
     items.delete_if {|item, price| price > total}
     # Sort the prices from smallest to largest
@@ -38,11 +39,16 @@ class Menu < ActiveRecord::Base
     until i > max_item_count
       # The array combination method will give us every possible combination of i members of a set
       # But each number is unique, so we need to add alternate versions of each number in order to allow for multiple
-      # orders of the same item
+      # orders of the same item.
       possible_items = []
       items.values.each do |val|
+        pushcount = 0
         i.times do
-          possible_items.push(val)
+          # Make sure that the copies of this item don't exceed the total
+          pushcount += 1
+          if (pushcount * val) <= total
+            possible_items.push(val)
+          end
         end
       end
       tests = possible_items.combination(i).to_a
@@ -53,5 +59,6 @@ class Menu < ActiveRecord::Base
       end
       i += 1
     end
+    return "Sorry, there's no way for these items to add up to that total."
   end
 end
