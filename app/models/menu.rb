@@ -7,7 +7,9 @@ class Menu < ActiveRecord::Base
 
   def self.parse_file(file)
     # Parse CSV format
-    array = CSV.parse(file.read)
+    if Rails.env.development? array = CSV.parse(file.read)
+    # For Heroku!
+    else array = CSV.parse(IO.read(file))
     # The first element is the total price we're trying to reach
     # Don't forget to remove the dollar sign
     total = array.shift.first.split('$').last.to_f
