@@ -25,9 +25,7 @@ class Menu < ActiveRecord::Base
     {:total => total, :items => hash}
   end
 
-  def solve_for_total
-    # Figure out which, if any, combination of items can add up to the total
-    # This is kind of slow for going through every permutation. Could really stand to be optimized
+  def get_working_combination
     # First eliminate any items that are already more than the total
     items.delete_if {|item, price| price > total}
     # Sort the prices from smallest to largest
@@ -38,8 +36,8 @@ class Menu < ActiveRecord::Base
     i = 1
     until i > max_item_count
       # The array combination method will give us every possible combination of i members of a set
-      # But each number is unique, so we need to add alternate versions of each number in order to allow for multiple
-      # orders of the same item.
+      # But each number is unique, so we need to add alternate versions of each number
+      # in order to allow for multiple orders of the same item.
       possible_items = []
       items.values.each do |val|
         pushcount = 0
@@ -54,11 +52,28 @@ class Menu < ActiveRecord::Base
       tests = possible_items.combination(i).to_a
       tests.each do |test|
         sum = test.inject{|sum, x| sum + x}
-        puts "#{test} sum: #{sum}"
+        # For debugging
+        #puts "#{test} sum: #{sum}"
         return test if sum == total
       end
       i += 1
     end
     return false
+  end
+
+  def solve_for_total
+    # Figure out which, if any, combination of items can add up to the total
+    # This slows down a lot for larger menus or amounts than the sample. Could stand to be optimized
+    if combo = get_working_combination
+      # Match the combo's prices to the menu items before returning solution
+      solution = []
+      combo.each do |food|
+        # If multiple items have the same price, just return the first item with that price, since we only need one solution
+         solution.push(items.select{|key, val| val == food}.keys.first)
+      end
+      solution
+    else
+      false
+    end
   end
 end

@@ -1,3 +1,5 @@
+$padding: 12px;
+
 .format{
   background: #eee;
   border: 1px solid #999;
@@ -10,15 +12,22 @@
 .sample{
   background: #eef;
 }
-.menu{
+.menu, .solution{
   list-style: none;
   overflow: auto;
   li{
     clear: both;
   }
-  .column{
-    float: left;
-    padding: 12px;
-    width: 120px;
-  }
+}
+.total {
+  padding: 12px 24px;
+}
+.column{
+  float: left;
+  padding: $padding;
+  width: 120px;
+}
+.retry{
+  clear: both;
+  float: right;
 }

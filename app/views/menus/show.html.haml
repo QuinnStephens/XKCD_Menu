@@ -1,7 +1,8 @@
 %p#notice= notice
 
 %h4 Desired total
-= number_to_currency(@menu.total)
+.total
+  = format_cents_as_dollars(@menu.total)
 %h4 Items
 %ul.menu
   - @menu.items.each do |item, price|
@@ -9,11 +10,25 @@
       %span.column
         = item
       %span.column
-        = number_to_currency(price)
+        = format_cents_as_dollars(price)
 %h4 Solution
 - if @solution
   %ul.solution
-  = @solution
+    - @solution.each do |item|
+      %li
+        %span.column
+          = item
+        %span.column
+          = format_cents_as_dollars(@menu.items[item])
+    %li
+      %hr
+      %li
+      %span.column
+        %h5 Total
+      %span.column
+        %strong
+          = format_cents_as_dollars(@menu.total)
+
 - else
   Sorry, there's no way to get that total with these items.
 .retry
