@@ -1,0 +1,10 @@
+@import "bootstrap";
+@import "menus";
+
+.header{
+  h1, h2, h3{ float: left;}
+  h2, h3{
+    margin: 0 12px;
+  }
+  overflow: auto;
+}

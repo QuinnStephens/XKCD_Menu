@@ -1,14 +1,21 @@
 %p#notice= notice
 
-%p
-  %b Total:
-  = @menu.total
-%p
-  %b Items:
-  = @menu.items
-%p
-  %b Solution:
+%h4 Desired total
+= number_to_currency(@menu.total)
+%h4 Items
+%ul.menu
+  - @menu.items.each do |item, price|
+    %li
+      %span.column
+        = item
+      %span.column
+        = number_to_currency(price)
+%h4 Solution
+- if @solution
+  %ul.solution
   = @solution
-= link_to 'Edit', edit_menu_path(@menu)
-\|
-= link_to 'Back', menus_path
+- else
+  Sorry, there's no way to get that total with these items.
+.retry
+  .btn
+    = link_to 'Try another menu', new_menu_path

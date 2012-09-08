@@ -1,5 +1,19 @@
-%h1 New menu
+%p Welcome to Menu Solver Pro! We provide Menu solutions.
+%p To use Menu Solver Pro, you will need your menu in a text file. Your text file should look like this:
+%ul.format
+  %li $[The total amount you would like to spend]
+  %li [Name of menu item 1],$[Price of menu item 1]
+  %li [Name of menu item 2],$[Price of menu item 2]
+  %li ...and so on until the end of the menu
+%p Here's a sample menu:
+%ul.format.sample
+  %li $15.05
+  %li mixed fruit,$2.15
+  %li french fries,$2.75
+  %li side salad,$3.35
+  %li hot wings,$3.55
+  %li mozzarella sticks,$4.20
+  %li sampler plate,$5.80
 
+Upload your menu below and we will show you a sample order that will add up to your desired total (if it's possible).
 = render 'form'
-
-= link_to 'Back', menus_path

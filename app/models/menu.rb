@@ -59,6 +59,6 @@ class Menu < ActiveRecord::Base
       end
       i += 1
     end
-    return "Sorry, there's no way for these items to add up to that total."
+    return false
   end
 end
