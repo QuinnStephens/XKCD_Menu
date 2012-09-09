@@ -3,6 +3,9 @@ require 'csv'
 class Menu < ActiveRecord::Base
   attr_accessible :items, :total, :file
 
+  validates :items, :presence => true
+  validates :total, :presence => true
+
   serialize :items, Hash
 
   def self.parse_file(file)
@@ -28,10 +31,8 @@ class Menu < ActiveRecord::Base
   def get_working_combination
     # First eliminate any items that are already more than the total
     items.delete_if {|item, price| price > total}
-    # Sort the prices from smallest to largest
-    items.values.sort!
     # Find how many of the cheapeast items you can add while <= total. This is the largest possible number of items
-    cheapest = items.values.first
+    cheapest = items.values.sort!.first
     max_item_count = (total / cheapest).floor
     i = 1
     until i > max_item_count

@@ -12,8 +12,13 @@ gem 'simple_form'
 
 group :development, :test do
   gem 'hirb'
-  gem 'debugger'
   gem 'sqlite3'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'faker'
 end
 
 group :production do
