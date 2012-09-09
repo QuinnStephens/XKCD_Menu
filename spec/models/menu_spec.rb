@@ -5,20 +5,20 @@ describe Menu do
     FactoryGirl.create(:menu).should be_valid
   end
   it 'is invalid without a total' do
-    FactoryGirl.build(:menu, total: nil).should_not be_valid
+    FactoryGirl.build(:menu, {"total" => nil}).should_not be_valid
   end
   it 'is invalid without a set of items' do
-    FactoryGirl.build(:menu, items: nil).should_not be_valid
+    FactoryGirl.build(:menu, {"items" => nil}).should_not be_valid
   end
   it 'returns false if there is no solution' do
-    menu = FactoryGirl.build(:menu, total: 1000, items: {"bread" => 160, "butter" => 1200})
+    menu = FactoryGirl.build(:menu, {"total" => 1000, "items" => {"bread" => 160, "butter" => 1200}})
     menu.solve_for_total.should eq false
   end
   it 'returns a solution if there is one' do
-    FactoryGirl.build(:menu, total: 1000, items: {"bread" => 175, "butter" => 300}).solve_for_total.should_not eq false
+    FactoryGirl.build(:menu, {"total" => 1000, "items" => {"bread" => 175, "butter" => 300}}).solve_for_total.should_not eq false
   end
   it 'returns a solution that adds up to the correct total' do
-    menu = FactoryGirl.build(:menu, total: 1000, items: {"bread" => 175, "butter" => 300})
+    menu = FactoryGirl.build(:menu, {"total" => 1000, "items" => {"bread" => 175, "butter" => 300}})
     sum = 0
     menu.solve_for_total.each do |item|
       sum += menu.items[item]

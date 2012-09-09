@@ -1,32 +1,23 @@
 class MenusController < ApplicationController
-  # GET /menus
-  # GET /menus.json
+
   def index
     @menus = Menu.all
   end
 
-  # GET /menus/1
-  # GET /menus/1.json
   def show
     @menu = Menu.find(params[:id])
     @solution = @menu.solve_for_total
   end
 
-  # GET /menus/new
-  # GET /menus/new.json
   def new
     @menu = Menu.new
   end
 
-  # GET /menus/1/edit
   def edit
     @menu = Menu.find(params[:id])
   end
 
-  # POST /menus
-  # POST /menus.json
   def create
-    #@menu = Menu.new(params[:menu])
     # Deal with Heroku's read-only file system by grabbing temp file in production
     if Rails.env.development?
       @file = params[:menu][:file].read
@@ -48,8 +39,6 @@ class MenusController < ApplicationController
     end
   end
 
-  # PUT /menus/1
-  # PUT /menus/1.json
   def update
     @menu = Menu.find(params[:id])
 
@@ -64,8 +53,6 @@ class MenusController < ApplicationController
     end
   end
 
-  # DELETE /menus/1
-  # DELETE /menus/1.json
   def destroy
     @menu = Menu.find(params[:id])
     @menu.destroy
