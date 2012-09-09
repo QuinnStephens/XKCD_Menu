@@ -29,7 +29,7 @@ class MenusController < ApplicationController
     #@menu = Menu.new(params[:menu])
     # Deal with Heroku's read-only file system by grabbing temp file in production
     if Rails.env.development? @file = params[:menu][:file]
-    else @file = params[:menu][:file].tempfile.path
+    else @file = IO.read(params[:menu][:file].path)
     end
 
     @params = Menu.parse_file(@file)
