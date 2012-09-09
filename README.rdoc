@@ -1,1 +1,3 @@
 My solution to the XKCD menu-item problem outlined at http://www.tablexi.com/exercise.
+
+Check out the live version at http://menusolverpro.herokuapp.com.
