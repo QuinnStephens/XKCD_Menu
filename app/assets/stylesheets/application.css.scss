@@ -33,7 +33,7 @@ body{
     letter-spacing: 3px;
     margin: 6px;
   }
-  @include border-radius(30px);
+  @include border-radius(20px);
   @include linear-gradient(#0000aa, #666699);
   color: #fff;
   overflow: auto;
