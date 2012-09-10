@@ -3,14 +3,23 @@ require 'csv'
 class Menu < ActiveRecord::Base
   attr_accessible :items, :total, :file
 
-  validates :items, :presence => true
-  validates :total, :presence => true
+  before_create :parse_file
+
+  # validates :items, :presence => true
+  # validates :total, :presence => true
+  validates :file, :presence => true
 
   serialize :items, Hash
 
-  def self.parse_file(file)
-    # Parse CSV format
-    array = CSV.parse(file)
+  def parse_file
+    # Deal with Heroku's read-only file system by grabbing temp file in production
+    if Rails.env.development?
+      filestring = self.file.read
+    else
+      filestring = IO.read(self.file.path)
+    end
+    self.file = filestring
+    array = CSV.parse(self.file)
     # The first element is the total price we're trying to reach
     # Don't forget to remove the dollar sign
     total = array.shift.first.split('$').last.to_f
@@ -25,7 +34,8 @@ class Menu < ActiveRecord::Base
       a[1] = (a[1] * 100).to_i
       hash[a[0]] = a[1]
     end
-    {:total => total, :items => hash}
+    self.total = total
+    self.items = hash
   end
 
   def get_working_combination

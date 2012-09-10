@@ -4,6 +4,9 @@ describe Menu do
   it  'has a valid factory' do
     FactoryGirl.create(:menu).should be_valid
   end
+  it 'is invalid without a file' do
+    FactoryGirl.build(:menu, {"file" => nil}).should_not be_valid
+  end
   it 'is invalid without a total' do
     FactoryGirl.build(:menu, {"total" => nil}).should_not be_valid
   end
