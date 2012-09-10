@@ -7,6 +7,17 @@ describe Menu do
   it 'is invalid without a file' do
     FactoryGirl.build(:menu, {"file" => nil}).should_not be_valid
   end
+  it 'has a valid total after parsing the file' do
+    menu = FactoryGirl.build(:menu)
+    menu.parse_file
+    menu.total.should eq 1505
+  end
+  it 'has a valid set of items after parsing the file' do
+    menu = FactoryGirl.build(:menu)
+    menu.parse_file
+    expected_parsed_items = {"mixed fruit" => 215, "french fries" => 275, "side salad" => 335, "hot wings" => 355, "mozzarella sticks" => 420, "sampler plate" => 580 }
+    menu.items.should eq expected_parsed_items
+  end
   it 'returns false if there is no solution' do
     menu = FactoryGirl.build(:menu, {"total" => 1000, "items" => {"bread" => 160, "butter" => 1200}})
     menu.solve_for_total.should eq false
