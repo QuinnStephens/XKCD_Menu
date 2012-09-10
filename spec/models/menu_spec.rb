@@ -7,12 +7,6 @@ describe Menu do
   it 'is invalid without a file' do
     FactoryGirl.build(:menu, {"file" => nil}).should_not be_valid
   end
-  it 'is invalid without a total' do
-    FactoryGirl.build(:menu, {"total" => nil}).should_not be_valid
-  end
-  it 'is invalid without a set of items' do
-    FactoryGirl.build(:menu, {"items" => nil}).should_not be_valid
-  end
   it 'returns false if there is no solution' do
     menu = FactoryGirl.build(:menu, {"total" => 1000, "items" => {"bread" => 160, "butter" => 1200}})
     menu.solve_for_total.should eq false

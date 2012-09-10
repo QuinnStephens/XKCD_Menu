@@ -5,8 +5,6 @@ class Menu < ActiveRecord::Base
 
   before_create :parse_file
 
-  # validates :items, :presence => true
-  # validates :total, :presence => true
   validates :file, :presence => true
 
   serialize :items, Hash
@@ -14,11 +12,10 @@ class Menu < ActiveRecord::Base
   def parse_file
     # Deal with Heroku's read-only file system by grabbing temp file in production
     if Rails.env.development?
-      filestring = self.file.read
+      self.file = self.file.read
     else
-      filestring = IO.read(self.file.path)
+      self.file = IO.read(self.file.path)
     end
-    self.file = filestring
     array = CSV.parse(self.file)
     # The first element is the total price we're trying to reach
     # Don't forget to remove the dollar sign
