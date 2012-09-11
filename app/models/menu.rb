@@ -16,17 +16,11 @@ class Menu < ActiveRecord::Base
 
   validates_with FileValidator
 
-  #before_create :parse_file
-
   serialize :items, Hash
 
   def parse_file
-    # Deal with Heroku's read-only file system by grabbing temp file in production
-    if Rails.env.development?
-      self.file = self.file.read
-    else
-      self.file = IO.read(self.file.path)
-    end
+
+    self.file = IO.read(self.file.path)
 
     begin
       array = CSV.parse(self.file)
