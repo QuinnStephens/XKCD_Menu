@@ -1,2 +1,2 @@
-mixed fruit,$2.15
-"Hey, is this a text file? Really? Awesome!"
+This is just a regular text file! It shouldn't work.
+"This is not properly formatted," says I; yes, that's what I say.
