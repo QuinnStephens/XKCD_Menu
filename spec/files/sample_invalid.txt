@@ -1,0 +1,2 @@
+mixed fruit,$2.15
+"Hey, is this a text file? Really? Awesome!"

@@ -1,3 +1,9 @@
+- if @errors
+  %span.error
+    - @errors.each do |e|
+      %p
+        = e
+    %p Please try again.
 = simple_form_for @menu, :html => {:multipart => true} do |f|
   = f.file_field :file, :required => true
   = f.button :submit, :value => "Show me the solution!"

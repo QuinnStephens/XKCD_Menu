@@ -20,6 +20,7 @@ class MenusController < ApplicationController
       if @menu.save
         format.html { redirect_to @menu, {"notice" => "We have processed your menu problem!"}}
       else
+        @errors = @menu.errors[:base]
         format.html { render action: "new"}
       end
     end

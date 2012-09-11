@@ -1,11 +1,22 @@
 require 'csv'
 
+class FileValidator < ActiveModel::Validator
+  def validate(menu)
+    if !menu.file
+      menu.errors[:base] << "No file has been uploaded!"
+    elsif !menu.parse_file
+      menu.errors[:base] << "There was a problem reading the uploaded file. Make sure it's formatted correctly."
+    end
+  end
+end
+
+
 class Menu < ActiveRecord::Base
   attr_accessible :items, :total, :file
 
-  before_create :parse_file
+  validates_with FileValidator
 
-  validates :file, :presence => true
+  #before_create :parse_file
 
   serialize :items, Hash
 
@@ -16,7 +27,12 @@ class Menu < ActiveRecord::Base
     else
       self.file = IO.read(self.file.path)
     end
-    array = CSV.parse(self.file)
+
+    begin
+      array = CSV.parse(self.file)
+    rescue CSV::MalformedCSVError => e
+      return false
+    end
     # The first element is the total price we're trying to reach
     # Don't forget to remove the dollar sign
     total = array.shift.first.split('$').last.to_f

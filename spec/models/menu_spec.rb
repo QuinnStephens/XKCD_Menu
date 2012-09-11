@@ -7,6 +7,10 @@ describe Menu do
   it 'is invalid without a file' do
     FactoryGirl.build(:menu, {"file" => nil}).should_not be_valid
   end
+  it 'is invalid without a properly formatted file' do
+    bad_file = Rack::Test::UploadedFile.new(Rails.root.join("spec/files/sample_invalid.txt"), "text/plain")
+    FactoryGirl.build(:menu, {"file" => bad_file}).should_not be_valid
+  end
   it 'has a valid total after parsing the file' do
     menu = FactoryGirl.build(:menu)
     menu.parse_file
